@@ -3,3 +3,4 @@ export let getData = (dataType) => {
         .then(response => response.json())
         .catch(error => console.log(error));
 }
+
