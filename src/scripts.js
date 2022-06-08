@@ -1,11 +1,24 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
+import {getData} from './apiCalls';
 import './css/styles.css';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/turing-logo.png'
 
+// >>>>>> Gloval Variables <<<<<<
+var travelersData;
+var tripsData;
+var destinationsData;
 
-console.log('This is the JavaScript entry file - your code begins here.');
+// >>>>>> Event Listenerts <<<<<<
+window.addEventListener('load', loadData);
+
+
+
+
+
+
+const loadData = () => {
+    Promise.all([getData('travelers'), getData('trips'), getData('destinations')]).then(data => {
+        travelersData = data[0].travelersData
+        tripsData = data[1].tripsData
+        destinationsData = data[2].destinationsData
+    });
+}
