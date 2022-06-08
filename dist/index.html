@@ -4,13 +4,51 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack Starter Kit</title>
+  <title>Travel Tracker</title>
 </head>
 <body>
-  <img src="./images/turing-logo.png" alt="turing logo">
-  
+  <div class="grid-container">
+    <div class="top-bar">
+        <h1>Travel Tracker</h1>
+          <div class="welcome">
+            <h2>Welcome Duuuuude!</h2>
+            <p>Total Spent on Travel: $$$$$</p>
+          </div>
+          <aside class="calendar">
+            <label for="select">Book A Trip!</label><br>
+            <input type="date" id="select" name="select-date" required>
+            <!-- <label for="How many people are traveling?"></label>
+            <input type ="number" placeholder="How Many Going?" class="input-text" id="waterOunces" required> -->
+            <button class="submit-button">Show Me!</button>
+          </aside>
+    </div>  
+
+    <div class="center">
+      <button>Past Trips</button>
+      <button>Present Trips</button>
+      <button>Future Trips</button>
+      <button>Pending Trips</button>
+    </div>
+
+    <div class="bottom-grid">
+      <section class="grid-item grid-item-1">
+        <img src="./images/turing-logo.png" class="turing" alt="turing">
+        <h3 class="destination">Destination</h3>
+        <p class="duration">Duration</p>
+        <p class="total-cost">Total Cost</p>
+      </section>
+    </div>
+  </div>
   <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
