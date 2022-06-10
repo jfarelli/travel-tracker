@@ -2,13 +2,14 @@ import Trips from '../src/Trips';
 
 class TripsRepository {
     constructor(data) {
-        this.trips = data.map((userObj) => { return new Trips(userObj) });
+        this.trips = data.map( obj => new Trips(obj) );
+        console.log('THIS.TRIPS: ', this.trips)
     }
 
     getTrips(id){
-        const data = this.trips.find((obj) => {
-            if(obj.id === id){
-                return obj;
+        const data = this.trips.find(trip => {
+            if(trip.id === id){
+                return trip;
             }
         })
         return data;
