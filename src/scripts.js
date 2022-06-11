@@ -1,11 +1,16 @@
 import './css/styles.css';
 import './images/turing-logo.png'
-// import {getData} from './apiCalls';
+import {getData} from './apiCalls';
 
 
 import TripsRepository from './TripsRepository';
 import TravelersRepository from './TravelersRepository';
 import DestinationsRepository from './DestinationsRepository';
+
+// const dayjs = require('dayjs')
+// dayjs().format()
+import dayjs from 'dayjs';
+dayjs().format();
 
 
 // >>>>>> Gloval Variables <<<<<<
@@ -23,27 +28,14 @@ window.addEventListener('load', loadData);
 
 
 
-// >>>>>> GET Data <<<<<<
-const getData = (dataType) => {
-    console.log(dataType)
-    return fetch(`http://localhost:3001/api/v1/${dataType}`)
-        .then(response => response.json())
-        .catch(error => console.log(error));
-}
-
-
 
 function loadData() {
-    Promise.all([getData('trips'), getData('travelers'), getData('destinations')]).then(data => {
-        tripsData = data[0].trips;
-
-        
-        travelersData = data[1].travelers;
-        console.log(travelersData)
-        destinationsData = data[2].destinations;
-        
-        tripsRepository = new TripsRepository(trips);
-        travelersRepository = new TravelersRepository(travelersData);
-        destinationsRepository = new DestinationsRepository(destinationsData);
+    Promise.all( [getData('trips'), getData('travelers'), getData('destinations')] ).then( data => {
+        tripsData = data[ 0 ].trips;
+        travelersData = data[ 1 ].travelers;
+        destinationsData = data[ 2 ].destinations;
+        tripsRepository = new TripsRepository( tripsData );
+        travelersRepository = new TravelersRepository( travelersData );
+        destinationsRepository = new DestinationsRepository( destinationsData );
     });
 }

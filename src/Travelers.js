@@ -1,8 +1,12 @@
 class Travelers {
-    constructor(travelersData) {
+    constructor( travelersData ) {
         this.id = travelersData.id;
         this.name = travelersData.name;
         this.travelerType = travelersData.travelerType
+    }
+
+    returnFirstName( ) {
+        return this.name.split(' ')[ 0 ];
     }
 }
 
