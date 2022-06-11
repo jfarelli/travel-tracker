@@ -1,5 +1,5 @@
 class Trips {
-    constructor(tripsData) {
+    constructor( tripsData ) {
         this.id = tripsData.id;
         this.userID = tripsData.userID;
         this.destinationID = tripsData.destinationID;

@@ -29,4 +29,8 @@ describe('Travelers', () => {
     expect(newTravelers1.travelerType).to.equal('relaxer');
     expect(newTravelers2.travelerType).to.equal('thrill-seeker');
   });
+  it('should be able to return a Traveler\'s first name', () => {
+    expect(newTravelers1.returnFirstName()).to.equal('Ham');
+    expect(newTravelers2.returnFirstName()).to.equal('Rachael');
+  });
 });

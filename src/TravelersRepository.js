@@ -1,16 +1,10 @@
-import Travelers from '../src/Travelers';
-
 class TravelersRepository {
-    constructor(data) {
-        this.travelers = data.map(obj => { return new Travelers(obj) });
+    constructor( data ) {
+        this.travelers = data;
     }
 
-    getTravelers(id){
-        const data = this.travelers.find((traveler) => {
-            if(traveler.id === id){
-                return traveler;
-            }
-        })
+    getTravelers( id ) {
+        const data = this.travelers.find( traveler => traveler.id === id )
         return data;
     }
 }
