@@ -34,8 +34,5 @@ describe('Destinations Repository', () => {
        expect(destinations1.getTripCostTotal(1, 1, 8)).to.equal(1056.00);
        expect(destinations2.getTripCostTotal(2, 3, 4)).to.equal(3014.00);
     });
-    it('should calculate YEARLY TOTAL trip cost', () => {
-        expect(destinations1.getTripCostTotalForAllYear(1)).to.equal(2816);
-        expect(destinations2.getTripCostTotalForAllYear(2)).to.equal(27555);
-     });
+    
 });

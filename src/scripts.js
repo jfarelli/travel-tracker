@@ -40,7 +40,7 @@ function loadData() {
         tripsRepository = new TripsRepository( tripsData );
         travelersRepository = new TravelersRepository( travelersData );
         destinationsRepository = new DestinationsRepository( destinationsData );
-        displayTripsOnDashboard()
+        displayTravelerInfoOnNav()
     });
 }
 
@@ -50,13 +50,28 @@ function getRandomUser( traveler ) {
     return traveler[ randomUserIndex ]
 }
   
-function displayTripsOnDashboard( whereAreWeGoing , howManyAreGoing , howLongAreWeStaying ) {
+function displayTravelerInfoOnNav(  ) {
     let randomUser = getRandomUser( travelersData );
-    let showUserTrips = new TripsRepository( tripsData );
-    let destinations = new DestinationsRepository( destinationsData )
-    // console.log('DESTINATIONS: ', destinations)
+    console.log('RANDOM USER: ', randomUser)
+    let newTrip = new TripsRepository( tripsData )
+    console.log('newTrip: ', newTrip)
+    // let tripValues = Object.values(newTrip)
+    // console.log('TRIPVALUES: ', tripValues)
     welcomeMessageDisplay.innerText = `Welcome, ${randomUser.name}!`
     travelerTypeDisplay.innerText = `The "${randomUser.travelerType.toUpperCase()}"`
-    // totalTripCostDisplay.innerText = `Total Spent on Travel: $${destinations.getTripCostTotal( whereAreWeGoing , howManyAreGoing , howLongAreWeStaying )}`
-    return showUserTrips.getTripsByUserId( randomUser.id )
+    totalTripCostDisplay.innerText += ` $${newTrip.getTripCostTotalForAllYear( randomUser.id, destinationsRepository )}`
 }
+
+
+
+
+
+
+
+
+
+
+    // let newTrip = new TripsRepository( tripsData )
+
+// let userTrips = newTrip.getTripsByUserId( tripsData );
+    // console.log("USER TRIPS: ", userTrips)
