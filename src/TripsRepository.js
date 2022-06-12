@@ -1,3 +1,5 @@
+import destinationsData from '../dist/sampleData/sampleData-Destinations';
+import DestinationsRepository from './DestinationsRepository';
 import dayjs from 'dayjs';
 dayjs().format();
 
@@ -28,8 +30,19 @@ class TripsRepository {
         return futureTrips
     }
    
+    getTripCostTotalForAllYear( userID, destinationsRepository ) {
+        const trips = this.getTripsByUserId( userID )
+        const tripsThisYear = trips.filter( trip => dayjs( trip.date ).isAfter( '2022' ));
+        const tripCostThisYear = tripsThisYear.reduce( ( acc, trip ) => {
+            let destination = destinationsRepository.getDestinationsbyId(trip.destinationID)
+            acc += (destination.estimatedFlightCostPerPerson * trip.travelers) + (destination.estimatedLodgingCostPerDay * trip.duration * trip.travelers)
+            return acc
+        }, 0)
+        return parseFloat( ( tripCostThisYear  * 1.1 ).toFixed( 2 ) );
+        };
     // present trips => 
     // pending trips =>
+    
 }
 
 

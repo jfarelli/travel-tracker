@@ -16,27 +16,27 @@ describe('Trips Repository', () => {
         expect(trips1.getTripsById(1)).to.deep.equal
         ([
             {
-            "id": 1,
-            "userID": 1,
-            "destinationID": 1,
-            "travelers": 1,
-            "date": "2022/09/16",
-            "duration": 8,
-            "status": "approved",
-            "suggestedActivities": []
+                "id": 1,
+                "userID": 1,
+                "destinationID": 1,
+                "travelers": 1,
+                "date": "2022/09/16",
+                "duration": 8,
+                "status": "approved",
+                "suggestedActivities": []
             }
         ]);
         expect(trips2.getTripsById(4)).to.deep.equal
         ([
             {
-            "id": 4,
-            "userID": 2,
-            "destinationID": 4,
-            "travelers": 5,
-            "date": "2022/10/04",
-            "duration": 18,
-            "status": "approved",
-            "suggestedActivities": []
+                "id": 4,
+                "userID": 2,
+                "destinationID": 4,
+                "travelers": 5,
+                "date": "2022/10/04",
+                "duration": 18,
+                "status": "approved",
+                "suggestedActivities": []
             }
         ]);
     });
@@ -68,7 +68,7 @@ describe('Trips Repository', () => {
                 "userID": 1,
                 "destinationID": 3,
                 "travelers": 1,
-                "date": "2020/07/17",
+                "date": "2021/07/17",
                 "duration": 5,
                 "status": "approved",
                 "suggestedActivities": []
@@ -77,34 +77,34 @@ describe('Trips Repository', () => {
         expect(trips2.getTripsByUserId(2)).to.deep.equal
         ([
             {
-            "id": 4,
-            "userID": 2,
-            "destinationID": 4,
-            "travelers": 5,
-            "date": "2022/10/04",
-            "duration": 18,
-            "status": "approved",
-            "suggestedActivities": []
+                "id": 4,
+                "userID": 2,
+                "destinationID": 4,
+                "travelers": 5,
+                "date": "2022/10/04",
+                "duration": 18,
+                "status": "approved",
+                "suggestedActivities": []
             },
             {
-            "id": 5,
-            "userID": 2,
-            "destinationID": 5,
-            "travelers": 3,
-            "date": "2021/06/29",
-            "duration": 9,
-            "status": "approved",
-            "suggestedActivities": []
+                "id": 5,
+                "userID": 2,
+                "destinationID": 5,
+                "travelers": 3,
+                "date": "2021/06/29",
+                "duration": 9,
+                "status": "approved",
+                "suggestedActivities": []
             },
             {
-            "id": 6,
-            "userID": 2,
-            "destinationID": 6,
-            "travelers": 5,
-            "date": "2022/5/28",
-            "duration": 20,
-            "status": "approved",
-            "suggestedActivities": []
+                "id": 6,
+                "userID": 2,
+                "destinationID": 6,
+                "travelers": 5,
+                "date": "2022/5/28",
+                "duration": 20,
+                "status": "approved",
+                "suggestedActivities": []
             }
         ]);
     });
@@ -126,7 +126,7 @@ describe('Trips Repository', () => {
                 "userID": 1,
                 "destinationID": 3,
                 "travelers": 1,
-                "date": "2020/07/17",
+                "date": "2021/07/17",
                 "duration": 5,
                 "status": "approved",
                 "suggestedActivities": []
@@ -185,4 +185,8 @@ describe('Trips Repository', () => {
                 } 
         ]);
     });
+    it('should calculate YEARLY TOTAL trip cost', () => {
+        expect(trips1.getTripCostTotalForAllYear(1)).to.equal(1056);
+        expect(trips2.getTripCostTotalForAllYear(2)).to.equal(20955);
+     });
 });
