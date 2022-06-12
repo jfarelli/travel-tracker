@@ -13,12 +13,18 @@ dayjs().format();
 
 
 // >>>>>> Gloval Variables <<<<<<
-var tripsData = [];
-var travelersData = [];
-var destinationsData = [];
-var tripsRepository;
-var travelersRepository;
-var destinationsRepository;
+let tripsData = [];
+let travelersData = [];
+let destinationsData = [];
+let tripsRepository;
+let travelersRepository;
+let destinationsRepository;
+
+
+// >>>>>> Query Selectors <<<<<<
+let welcomeMessageDisplay = document.querySelector(".welcome-message");
+let travelerTypeDisplay = document.querySelector(".traveler-type")
+let totalTripCostDisplay = document.querySelector(".total-trip-cost")
 
 // >>>>>> Event Listenerts <<<<<<
 window.addEventListener('load', loadData);
@@ -34,7 +40,7 @@ function loadData() {
         tripsRepository = new TripsRepository( tripsData );
         travelersRepository = new TravelersRepository( travelersData );
         destinationsRepository = new DestinationsRepository( destinationsData );
-        console.log(displayTripsOnDashboard())
+        displayTripsOnDashboard()
     });
 }
 
@@ -44,8 +50,12 @@ function getRandomUser( traveler ) {
     return traveler[ randomUserIndex ]
 }
   
-  function displayTripsOnDashboard() {
-    let randomUser = getRandomUser(travelersData);
-    let showUserTrips = new TripsRepository(tripsData);
-    return showUserTrips.getTripsByUserId(randomUser.id)
+function displayTripsOnDashboard(  ) {
+    let randomUser = getRandomUser( travelersData );
+    let showUserTrips = new TripsRepository( tripsData );
+    let destinations = new DestinationsRepository( destinationsData )
+    welcomeMessageDisplay.innerText = `Welcome, ${randomUser.name.split(' ')[ 0 ]}!`
+    travelerTypeDisplay.innerText = `The "${randomUser.travelerType.toUpperCase()}"`
+    totalTripCostDisplay.innerText = `Total Spent on Travel: $${destinations.getTripCostTotal(  )}`
+    return showUserTrips.getTripsByUserId( randomUser.id )
 }
