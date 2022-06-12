@@ -46,16 +46,17 @@ function loadData() {
 
 function getRandomUser( traveler ) {
     const randomUserIndex = Math.floor( Math.random() * traveler.length )
-    console.log(traveler[ randomUserIndex ])
+    // console.log(traveler[ randomUserIndex ])
     return traveler[ randomUserIndex ]
 }
   
-function displayTripsOnDashboard(  ) {
+function displayTripsOnDashboard( whereAreWeGoing , howManyAreGoing , howLongAreWeStaying ) {
     let randomUser = getRandomUser( travelersData );
     let showUserTrips = new TripsRepository( tripsData );
     let destinations = new DestinationsRepository( destinationsData )
-    welcomeMessageDisplay.innerText = `Welcome, ${randomUser.name.split(' ')[ 0 ]}!`
+    // console.log('DESTINATIONS: ', destinations)
+    welcomeMessageDisplay.innerText = `Welcome, ${randomUser.name}!`
     travelerTypeDisplay.innerText = `The "${randomUser.travelerType.toUpperCase()}"`
-    totalTripCostDisplay.innerText = `Total Spent on Travel: $${destinations.getTripCostTotal(  )}`
+    // totalTripCostDisplay.innerText = `Total Spent on Travel: $${destinations.getTripCostTotal( whereAreWeGoing , howManyAreGoing , howLongAreWeStaying )}`
     return showUserTrips.getTripsByUserId( randomUser.id )
 }
