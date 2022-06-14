@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import TripsRepository from '../src/TripsRepository';
 import tripsData from '../dist/sampleData/sampleData-Trips';
 import destinationsData from '../dist/sampleData/sampleData-Destinations';
+import DestinationsRepository from '../src/DestinationsRepository';
 
 describe( 'Trips Repository', () => {
     let trips1;
@@ -186,8 +187,14 @@ describe( 'Trips Repository', () => {
                 } 
         ]);
     });
-    it('should calculate YEARLY TOTAL trip cost', () => {
-        expect( trips1.getTripCostTotalForAllYear( 1, destinationsData ) ).to.equal( 1056 );
-        expect( trips2.getTripCostTotalForAllYear( 2, destinationsData ) ).to.equal( 20955 );
+    it('should be able to get Pending trips data', () => {
+        expect( trips1.getPendingTripsByUserID( 1 ) ).to.deep.equal( [] );
+        expect( trips2.getPendingTripsByUserID( 2 ) ).to.deep.equal( [] );
      });
+    it('should calculate YEARLY TOTAL trip cost', () => {
+        let destinations = new DestinationsRepository( destinationsData )
+        expect( trips1.getTripCostTotalForAllYear( 1, destinations ) ).to.equal( '1,056' );
+        expect( trips2.getTripCostTotalForAllYear( 2, destinations ) ).to.equal( '20,955' );
+     });
+     
 });

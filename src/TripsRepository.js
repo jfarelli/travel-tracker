@@ -30,11 +30,18 @@ class TripsRepository {
         return futureTrips
     }
 
+    getPendingTripsByUserID( userID ) {
+        let travelerTripsTaken = this.getTripsByUserId( userID );
+        let pendingTrips = travelerTripsTaken.filter( trip => {
+            return trip.status === 'pending'; 
+        }) 
+        return pendingTrips
+    }
+
     // present trips => 
-    // pending trips =>
+
    
     getTripCostTotalForAllYear( userID, destinationsRepository ) {
-        // console.log('destinationsRepository: ', destinationsRepository)
         const trips = this.getTripsByUserId( userID )
         const tripsThisYear = trips.filter( trip => dayjs( trip.date ).isAfter( '2022' ) );
         const tripCostThisYear = tripsThisYear.reduce( ( acc, trip ) => {
@@ -42,7 +49,7 @@ class TripsRepository {
             acc += ( destination.estimatedFlightCostPerPerson * trip.travelers ) + ( destination.estimatedLodgingCostPerDay * trip.duration * trip.travelers )
             return acc
         }, 0)
-        return parseFloat( ( tripCostThisYear  * 1.1 ).toFixed( 0 ) ).toLocaleString( 'en-US' );
+        return parseFloat( ( tripCostThisYear  * 1.1 ).toFixed( 2 ) ).toLocaleString( 'en-US' ) ;
         };
 
     

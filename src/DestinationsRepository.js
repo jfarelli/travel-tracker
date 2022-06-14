@@ -16,8 +16,8 @@ class DestinationsRepository {
         const destination = this.getDestinationsbyId( whereAreWeGoing );
         const totalFlightCost = howManyAreGoing * destination.estimatedFlightCostPerPerson;
         const totalHousingCost = howLongAreWeStaying * destination.estimatedLodgingCostPerDay;
-        const totalWithAgentFees = parseFloat( ( totalFlightCost + totalHousingCost ) * 1.1 );
-        return parseFloat( totalWithAgentFees.toFixed( 2 ) );
+        const totalWithAgentFees = ( ( totalFlightCost + totalHousingCost ) * 1.1 ).toFixed( 2 );
+        return parseFloat( totalWithAgentFees.toLocaleString( 'en-US' ) );
     }
 }
 

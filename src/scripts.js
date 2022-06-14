@@ -1,7 +1,8 @@
-// import './css/normalize.css';
 import './css/styles.css';
+// import './css/normalize.css';
 import './images/turing-logo.png'
 import { getData } from './apiCalls';
+import { postData } from './apiCalls';
 import Trips from './Trips';
 import TripsRepository from './TripsRepository';
 import Travelers from './Travelers';
@@ -16,10 +17,11 @@ dayjs().format();
 // >>>>>> Gloval Variables <<<<<<
 let tripsData = [];
 let travelersData = [];
-let destinationsData = [];
+let destinationsData;
 let tripsRepository;
 let travelersRepository;
 let destinationsRepository;
+let currentUser;
 
 
 // >>>>>> Query Selectors <<<<<<
@@ -34,15 +36,60 @@ let pastTripsWindow = document.getElementById( 'pastTripsWindow');
 let presentTripsWindow = document.getElementById( 'presentTripsWindow' );
 let futureTripsWindow = document.getElementById( 'futureTripsWindow') ;
 let pendingTripsWindow = document.getElementById( 'pendingTripsWindow' );
+let destinationDropDown = document.getElementById( 'destinationDropDown' );
+document.getElementById('pastTripsButton').focus();
+
+let postTripInputButton = document.querySelector('.calendar');
+
 
 // >>>>>> Event Listenerts <<<<<<
 window.addEventListener( 'load', loadData );
 pastTripsButton.addEventListener( 'click', showPastTripsWindow );
 presentTripsButton.addEventListener( 'click', showPresentTripsWindow );
 futureTripsButton.addEventListener( 'click', showFutureTripsWindow );
-pendingTripsButton.addEventListener( 'click', showPendingTripsWindow) ;
+pendingTripsButton.addEventListener( 'click', showPendingTripsWindow);
+
+postTripInputButton.addEventListener( 'submit', getNewTripDataFromPost)
 
 
+// >>>>>> POST Request <<<<<<
+function getPostedTripDataFromForm( e ) {
+    e.preventDefault();
+    let postedTripData = new FormData( e.target );
+    const newTrip = {
+        id: tripsRepository.trips.length +1,
+        userID: currentUser.id,
+        destinationID: parseInt( postedTripData.get( 'destination' )),
+        duration: parseInt( postedTripData.get( 'duration' )),
+        travelers: parseInt( postedTripData.get( 'travelers' )),
+        date: postedTripData.get( 'select-date' ).split('-').join('/'),
+        status: 'approved',
+        suggestedActivities: [],
+    };
+    e.target.reset();
+    // console.log('NEW TRIP: ', newTrip)
+    return newTrip
+}
+
+function showMeThePostedTrip( trip ) {
+    // console.log('TRIP: ', trip)
+    const formatTrip = getPostedTripDataFromForm( trip );
+    futureTripsWindow.innerHTML += formatTrip;
+  };
+
+
+function getNewTripDataFromPost( event ) {
+    const newTrip = getPostedTripDataFromForm( event );
+    const promiseMeYouWillPost = postData( newTrip );
+    const fetchMeThatPromise = getData( 'trips' );
+    Promise.all( [ promiseMeYouWillPost, fetchMeThatPromise ] ).then( response => {
+        tripsRepository = new TripsRepository( response[ 1 ].trips );  // Removed the .trips at the end
+        console.log('response[0].newTrip: ', response[1].trips)
+      showMeThePostedTrip( response[ 0 ] );  // Removed the .trips at the end
+      console.log('PROMISE RESPONSE: ', response)
+      .catch(error => console.log(error))
+    });
+  };
 
 
 function loadData() {
@@ -53,8 +100,13 @@ function loadData() {
         tripsRepository = new TripsRepository( tripsData );
         travelersRepository = new TravelersRepository( travelersData );
         destinationsRepository = new DestinationsRepository( destinationsData );
-        displayTravelerInfoOnNav()
-        displayPastTrips()
+        currentUser = getRandomUser( travelersData );
+        displayTravelerInfoOnNav();
+        showPastTripsOnDashboard();
+        showPresentTripsOnDashboard();
+        showFutureTripsOnDashboard();
+        showPendingTripsOnDashboard();
+        displayDestinationsInDropDown();
     });
 }
 
@@ -65,37 +117,86 @@ function getRandomUser( traveler ) {
   
 function displayTravelerInfoOnNav(  ) {
     let newTrip = new TripsRepository( tripsData )
-    let randomUser = getRandomUser( travelersData );
-    welcomeMessageDisplay.innerText = `Welcome, ${ randomUser.name }!`
-    travelerTypeDisplay.innerText = `"${ randomUser.travelerType.toUpperCase() }"`
-    totalTripCostDisplay.innerText += `Total Spent on Travel this Year  : $${ newTrip.getTripCostTotalForAllYear( randomUser.id, destinationsRepository ) }`
-    // console.log('destinationsRepository: ', destinationsRepository)
+        welcomeMessageDisplay.innerText = `Welcome, ${ currentUser.name }!`
+        travelerTypeDisplay.innerText = `"${ currentUser.travelerType.toUpperCase() }"`
+        totalTripCostDisplay.innerText += `Total Spent on Travel this Year  : $${ newTrip.getTripCostTotalForAllYear( currentUser.id, destinationsRepository ) }`
 }
 
-
-function displayPastTrips( whereAreWeGoing , howManyAreGoing , howLongAreWeStaying ) {
+function displayPastTrips( ) {
     let newTrip = new TripsRepository( tripsData );
     let destinations = new DestinationsRepository( destinationsData );
-    const pastTrips = newTrip.getPastTripsByUserID( 7 );  // HARD-CODED TO SEE RESULTS IN CONSOLE
-    console.log('PASTTRIPS: ', pastTrips)
-      const formatTrips = pastTrips.map(trip => {
-        const destination = destinations.getDestinationsbyId(trip.destinationID);
-        // console.log('DESTINATION: ', destination)
-        // console.log('DESTINATION.IMAGE: ', destination.image)
-        // console.log('DESTINATION.ALT: ', destination.alt)
-        // console.log('DESTINATION.TEXT: ', destination.destination)
-        // console.log('PASTTRIPS.DURATION: ', trip.duration)
-        console.log('DESTINATIONS.getTripTotalCost: ', destinations.getTripCostTotal( whereAreWeGoing , howManyAreGoing , howLongAreWeStaying ))
-        return `<div class="bottom-grid">
-          <div class="grid-item grid-item-1">
-            <img class= "trip-image" src="${destination.image}" alt="${destination.alt}">
-              <h3 class="destination-text">${destination.destination}</h3>
-              <p class="duration">${trip.duration} days</p>
-              <p class="total-cost">$${destinations.getTripCostTotal( whereAreWeGoing , howManyAreGoing , howLongAreWeStaying )}</p>
-          </div>`;
+    let pastTrips = newTrip.getPastTripsByUserID( currentUser.id );
+    const formatTrips = pastTrips.map( trip => {
+        const destination = destinations.getDestinationsbyId( trip.destinationID );
+        return `<section class="grid-item grid-item-1">
+                        <img class= "trip-image" src="${ destination.image }" alt="${ destination.alt }">
+                        <h3 class="destination-text">${ destination.destination }</h3>
+                        <p class="duration">Stayed ${ trip.duration } days</p>
+                </section>`;
       });
       return formatTrips;
+}
+
+function showPastTripsOnDashboard() {
+    let pastTrips = displayPastTrips( )
+    if (pastTrips.length === 0) {
+        pastTripsWindow.innerHTML = '<p class="no-trip">NO PAST TRIPS!!!</p>'
+    } else {
+        pastTrips.forEach( trip => {
+            return pastTripsWindow.innerHTML += trip;
+    })
+}
+}
+
+function displayFutureTrips( ) {
+    let futureTrip = new TripsRepository( tripsData );
+    let destinations = new DestinationsRepository( destinationsData );
+    let futureTrips = futureTrip.getFutureTripsByUserID( currentUser.id );
+    const formatTrips = futureTrips.map( trip => {
+        const destination = destinations.getDestinationsbyId( trip.destinationID );
+        return `<section class="grid-item grid-item-1">
+                        <img class= "trip-image" src="${ destination.image }" alt="${ destination.alt }">
+                        <h3 class="destination-text">${ destination.destination }</h3>
+                        <p class="duration">Stayed ${ trip.duration } days</p>
+                </section>`;
+        });
+        return formatTrips;
+}
+
+function showFutureTripsOnDashboard() {
+    let futureTrips = displayFutureTrips( )
+    if (futureTrips.length === 0) {
+        futureTripsWindow.innerHTML = '<p class="no-trip">NO FUTURE TRIPS!!!</p>'
+    } else {
+        futureTrips.forEach( trip => {
+            return futureTripsWindow.innerHTML += trip;
+        })
     }
+}
+
+function showPresentTripsOnDashboard() {
+    // let presentTrips = displayPresentTrips( )
+    // if (presentTrips.length === 0) {
+        presentTripsWindow.innerHTML = '<p class="no-trip">NO PRESENT TRIPS!!!</p>'
+    // } 
+    // else {
+    //     presentTrips.forEach( trip => {
+    //         return presentTripsWindow.innerHTML += trip;
+    //     })
+    // }
+}
+
+function showPendingTripsOnDashboard() {
+    // let pendingTrips = displayPresentTrips( )
+    // if (pendingTrips.length === 0) {
+        pendingTripsWindow.innerHTML = '<p class="no-trip">NO PENDING TRIPS!!!</p>'
+    // } 
+    // else {
+    //     pendingTrips.forEach( trip => {
+    //         return pendingTripsWindow.innerHTML += trip;
+    //     })
+    // }
+}
 
 function showPastTripsWindow() {
     pastTripsWindow.classList.remove( 'hidden' )
@@ -123,4 +224,10 @@ function showPendingTripsWindow() {
     presentTripsWindow.classList.add( 'hidden' );
     futureTripsWindow.classList.add( 'hidden' );
     pendingTripsWindow.classList.remove( 'hidden' );
+}
+
+function displayDestinationsInDropDown() {
+    destinationsRepository.destinations.forEach( destination => {
+        destinationDropDown.innerHTML += `<option name='destination' value="${destination.id}">${destination.destination}</option>`
+    })
 }
