@@ -131,12 +131,12 @@ option {
 }
 
 .destination-text {
-  margin-top: 15px;
+  margin-top: 5px;
   font-size: 20px;
 }
 
 .duration {
-  margin-top: 10px;
+  margin-top: 5px;
   font-size: 15px;
   color:rgba(0, 0, 0, 0.8);
 }

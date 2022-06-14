@@ -14,9 +14,10 @@ export let postData = ( data ) => {
         method: 'POST',
         body: JSON.stringify( data ),
         headers: {
-            'Content-Type': 'application.json'
+            'Content-Type': 'application/json'
         }
-    }).then( response => checkForError( response ) )
+    })
+    // .then( response => checkForError( response ) )
     .then( response => {
         // console.log( 'POST RESPONSE: ', response )
         return response.json() 
@@ -25,10 +26,10 @@ export let postData = ( data ) => {
 }
 
 
-const checkForError = ( response ) => {
-    if ( response.ok ) {
-      return response
-    } else {
-      throw new Error( response.status )
-    }
-  }
+// const checkForError = ( response ) => {
+//     if ( response.ok ) {
+//       return response
+//     } else {
+//       throw new Error( response.status )
+//     }
+//   }

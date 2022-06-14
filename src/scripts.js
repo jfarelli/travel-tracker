@@ -22,7 +22,8 @@ let tripsRepository;
 let travelersRepository;
 let destinationsRepository;
 let currentUser;
-
+let postedTripData;
+let postTripInputButton;
 
 // >>>>>> Query Selectors <<<<<<
 let welcomeMessageDisplay = document.querySelector( ".welcome-message" );
@@ -39,7 +40,8 @@ let pendingTripsWindow = document.getElementById( 'pendingTripsWindow' );
 let destinationDropDown = document.getElementById( 'destinationDropDown' );
 document.getElementById('pastTripsButton').focus();
 
-let postTripInputButton = document.querySelector('.calendar');
+
+postTripInputButton = document.querySelector('.calendar');
 
 
 // >>>>>> Event Listenerts <<<<<<
@@ -49,46 +51,69 @@ presentTripsButton.addEventListener( 'click', showPresentTripsWindow );
 futureTripsButton.addEventListener( 'click', showFutureTripsWindow );
 pendingTripsButton.addEventListener( 'click', showPendingTripsWindow);
 
-postTripInputButton.addEventListener( 'submit', getNewTripDataFromPost)
+
+postTripInputButton.addEventListener( 'submit', getNewTripDataFromPost );
 
 
 // >>>>>> POST Request <<<<<<
-function getPostedTripDataFromForm( e ) {
-    e.preventDefault();
-    let postedTripData = new FormData( e.target );
-    const newTrip = {
-        id: tripsRepository.trips.length +1,
+function getPostedTripDataFromForm( event ) {
+    // event.preventDefault();
+    // console.log(postTripInputButton.value)
+    console.log('EVENT: ', event)
+    postedTripData = new FormData( event.target ); 
+    console.log('EVENT: ', event)
+    console.log('POSTEDTRIPDATA: ', postedTripData)
+    console.log('EVENT.TARGET: ', event.target)
+    let newTrip = {
+        id: tripsRepository.trips.length + 1,
         userID: currentUser.id,
-        destinationID: parseInt( postedTripData.get( 'destination' )),
-        duration: parseInt( postedTripData.get( 'duration' )),
-        travelers: parseInt( postedTripData.get( 'travelers' )),
-        date: postedTripData.get( 'select-date' ).split('-').join('/'),
-        status: 'approved',
+        destinationID: parseInt( postedTripData.get( "destination" )),
+        duration: parseInt( postedTripData.get( "duration" )),
+        travelers: parseInt( postedTripData.get( "travelers" )),
+        date: dayjs( postedTripData.get( "select-date" ) ).format( 'YYYY/MM/DD' ),
+        status: "pending",  // CHANGED TO 'pending' FROM 'approved'
         suggestedActivities: [],
     };
-    e.target.reset();
+    event.target.reset();
     // console.log('NEW TRIP: ', newTrip)
     return newTrip
 }
 
-function showMeThePostedTrip( trip ) {
-    // console.log('TRIP: ', trip)
-    const formatTrip = getPostedTripDataFromForm( trip );
-    futureTripsWindow.innerHTML += formatTrip;
+function showMeThePostedTrip( newTrip ) {
+    let destination = destinationsRepository.getDestinationsbyId( newTrip.destinationID );
+    let formatTrip =  newTrip ;
+    pendingTripsWindow.innerHTML += 
+            `<section class="grid-item grid-item-1">
+                <img class= "trip-image" src="${ destination.image }" alt="${ destination.alt }">
+                <h3 class="destination-text">${ destination.destination }</h3>
+                <p class="duration">Staying ${ newTrip.duration } days</p>
+                <p class="travelers">Travelers: ${ newTrip.travelers }</p>
+                <p class="trip-status">Status: ${ newTrip.status }</p>
+            </section>`
   };
+ 
+
+//   e.target.reset();
+//   postNewTrip(newTrip).then(data => {
+//       // console.log(data)
+//       dataRepo.trips.trips.push(data.newTrip)
+//       populateTravelerTrips()
+//       renderTripCost()
+//       getUserTotalSpent()
 
 
 function getNewTripDataFromPost( event ) {
-    const newTrip = getPostedTripDataFromForm( event );
-    const promiseMeYouWillPost = postData( newTrip );
-    const fetchMeThatPromise = getData( 'trips' );
+    event.preventDefault();
+    let newTrip = getPostedTripDataFromForm( event );
+    let promiseMeYouWillPost = postData( newTrip );
+    let fetchMeThatPromise = getData( 'trips' );
     Promise.all( [ promiseMeYouWillPost, fetchMeThatPromise ] ).then( response => {
         tripsRepository = new TripsRepository( response[ 1 ].trips );  // Removed the .trips at the end
-        console.log('response[0].newTrip: ', response[1].trips)
-      showMeThePostedTrip( response[ 0 ] );  // Removed the .trips at the end
-      console.log('PROMISE RESPONSE: ', response)
-      .catch(error => console.log(error))
-    });
+        // console.log('response[0].newTrip: ', response[1].trips)
+      showMeThePostedTrip( response[ 0 ].newTrip );  // Removed the .trips at the end
+      console.log('PROMISE RESPONSE: ', response[ 0 ].newTrip)
+    })
+    .catch( error => console.log( error ) )
   };
 
 
@@ -102,11 +127,11 @@ function loadData() {
         destinationsRepository = new DestinationsRepository( destinationsData );
         currentUser = getRandomUser( travelersData );
         displayTravelerInfoOnNav();
+        displayDestinationsInDropDown();
         showPastTripsOnDashboard();
         showPresentTripsOnDashboard();
         showFutureTripsOnDashboard();
         showPendingTripsOnDashboard();
-        displayDestinationsInDropDown();
     });
 }
 
@@ -186,16 +211,33 @@ function showPresentTripsOnDashboard() {
     // }
 }
 
+function displayPendingTrips( ) {
+    let pendingTrip = new TripsRepository( tripsData );
+    let destinations = new DestinationsRepository( destinationsData );
+    let pendingTrips = pendingTrip.getPendingTripsByUserID( currentUser.id );
+    const formatTrips = pendingTrips.map( trip => {
+        const destination = destinations.getDestinationsbyId( trip.destinationID );
+        return `<section class="grid-item grid-item-1">
+                        <img class= "trip-image" src="${ destination.image }" alt="${ destination.alt }">
+                        <h3 class="destination-text">${ destination.destination }</h3>
+                        <p class="duration">Staying ${ trip.duration } days</p>
+                        <p class="travelers">Travelers: ${ trip.travelers }</p>
+                        <p class="trip-status">Status: ${ trip.status }</p>
+                </section>`;
+        });
+        return formatTrips;
+}
+
 function showPendingTripsOnDashboard() {
-    // let pendingTrips = displayPresentTrips( )
-    // if (pendingTrips.length === 0) {
+    let pendingTrips = displayPendingTrips( )
+    if (pendingTrips.length === 0) {
         pendingTripsWindow.innerHTML = '<p class="no-trip">NO PENDING TRIPS!!!</p>'
-    // } 
-    // else {
-    //     pendingTrips.forEach( trip => {
-    //         return pendingTripsWindow.innerHTML += trip;
-    //     })
-    // }
+    } 
+    else {
+        pendingTrips.forEach( trip => {
+            return pendingTripsWindow.innerHTML += trip;
+        })
+    }
 }
 
 function showPastTripsWindow() {
