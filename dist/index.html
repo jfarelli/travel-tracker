@@ -18,11 +18,11 @@
           <form class="calendar">
             <label for="select">Book Your Next Trip!</label>
             <input type="date" id="select" class="calendar-entry" name="select-date" required>
-            <label for="How long would you like to stay?"></label>
-            <input type ="number" name="duration" placeholder="Duration (days)" class="input-text" required>
-            <label for="How many people are traveling?"></label>
-            <input type ="number" name="travelers" placeholder="How Many Going?" class="input-text" required>
-            <label for="Where would you like to go?"></label>
+            <label for="duration" class="hidden">How Long?</label>
+            <input id="duration" type ="number" name="duration" placeholder="Duration (days)" class="input-text" required>
+            <label for="travelers" class="hidden">How Many?</label>
+            <input id="travelers" type ="number" name="travelers" placeholder="How Many Going?" class="input-text" required>
+            <label for="destinationDropDown" class="hidden">Destination</label>
             <select id="destinationDropDown" name="destination" required></select>
             <input type="submit" value="Show Me!" class="submit-button" id="postTripSubmit"></input>
           </form>
