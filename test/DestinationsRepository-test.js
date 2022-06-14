@@ -30,9 +30,8 @@ describe('Destinations Repository', () => {
             "alt": "city with boats on the water during the day time"
             });
     });
-    it('should calculate TOTAL trip cost', () => {
+    it('should calculate total trip cost', () => {
        expect(destinations1.getTripCostTotal(1, 1, 8)).to.equal(1056.00);
        expect(destinations2.getTripCostTotal(2, 3, 4)).to.equal(3014.00);
     });
-    
 });

@@ -5,9 +5,9 @@ class Travelers {
         this.travelerType = travelersData.travelerType
     }
 
-    returnFirstName( ) {
-        return this.name.split(' ')[ 0 ];
-    }
+    // returnFirstName( ) {
+    //     return this.name.split(' ')[ 0 ];
+    // }
 }
 
 

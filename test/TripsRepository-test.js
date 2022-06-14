@@ -1,19 +1,21 @@
 import { expect } from 'chai';
 import TripsRepository from '../src/TripsRepository';
 import tripsData from '../dist/sampleData/sampleData-Trips';
+import destinationsData from '../dist/sampleData/sampleData-Destinations';
+import DestinationsRepository from '../src/DestinationsRepository';
 
-describe('Trips Repository', () => {
+describe( 'Trips Repository', () => {
     let trips1;
     let trips2;
-    beforeEach(() => {
-        trips1 = new TripsRepository(tripsData);
-        trips2 = new TripsRepository(tripsData);
+    beforeEach( () => {
+        trips1 = new TripsRepository( tripsData );
+        trips2 = new TripsRepository( tripsData );
     })
     it('should be a function', () => {
-      expect(TripsRepository).to.be.a('function');
+      expect( TripsRepository ).to.be.a( 'function' );
     });
     it('should be able to get Trips data by id', () => {
-        expect(trips1.getTripsById(1)).to.deep.equal
+        expect( trips1.getTripsById( 1 ) ).to.deep.equal
         ([
             {
                 "id": 1,
@@ -26,7 +28,7 @@ describe('Trips Repository', () => {
                 "suggestedActivities": []
             }
         ]);
-        expect(trips2.getTripsById(4)).to.deep.equal
+        expect( trips2.getTripsById( 4 ) ).to.deep.equal
         ([
             {
                 "id": 4,
@@ -41,7 +43,7 @@ describe('Trips Repository', () => {
         ]);
     });
     it('should be able to get Trips data by UserID', () => {
-        expect(trips1.getTripsByUserId(1)).to.deep.equal
+        expect( trips1.getTripsByUserId( 1 ) ).to.deep.equal
         ([
             {
                 "id": 1,
@@ -74,7 +76,7 @@ describe('Trips Repository', () => {
                 "suggestedActivities": []
             }
         ]);
-        expect(trips2.getTripsByUserId(2)).to.deep.equal
+        expect( trips2.getTripsByUserId( 2 ) ).to.deep.equal
         ([
             {
                 "id": 4,
@@ -109,7 +111,7 @@ describe('Trips Repository', () => {
         ]);
     });
     it('should be able to get PAST Trips data by user ID', () => {
-        expect(trips1.getPastTripsByUserID(1)).to.deep.equal
+        expect( trips1.getPastTripsByUserID( 1 ) ).to.deep.equal
         ([
             {
                 "id": 2,
@@ -132,7 +134,7 @@ describe('Trips Repository', () => {
                 "suggestedActivities": []
             }
         ]);
-        expect(trips2.getPastTripsByUserID(2)).to.deep.equal
+        expect( trips2.getPastTripsByUserID( 2 ) ).to.deep.equal
         ([
             {
                 "id": 5,
@@ -158,7 +160,7 @@ describe('Trips Repository', () => {
     });
     
     it('should be able to get future Trips data', () => {
-        expect(trips1.getFutureTripsByUserID(1)).to.deep.equal
+        expect( trips1.getFutureTripsByUserID( 1 ) ).to.deep.equal
         ([
             {
                 "id": 1,
@@ -171,7 +173,7 @@ describe('Trips Repository', () => {
                 "suggestedActivities": []
             } 
         ]);
-        expect(trips2.getFutureTripsByUserID(2)).to.deep.equal
+        expect( trips2.getFutureTripsByUserID( 2 ) ).to.deep.equal
         ([
             {
                 "id": 4,
@@ -185,8 +187,14 @@ describe('Trips Repository', () => {
                 } 
         ]);
     });
-    it('should calculate YEARLY TOTAL trip cost', () => {
-        expect(trips1.getTripCostTotalForAllYear(1)).to.equal(1056);
-        expect(trips2.getTripCostTotalForAllYear(2)).to.equal(20955);
+    it('should be able to get Pending trips data', () => {
+        expect( trips1.getPendingTripsByUserID( 1 ) ).to.deep.equal( [] );
+        expect( trips2.getPendingTripsByUserID( 2 ) ).to.deep.equal( [] );
      });
+    it('should calculate YEARLY TOTAL trip cost', () => {
+        let destinations = new DestinationsRepository( destinationsData )
+        expect( trips1.getTripCostTotalForAllYear( 1, destinations ) ).to.equal( '1,056' );
+        expect( trips2.getTripCostTotalForAllYear( 2, destinations ) ).to.equal( '20,955' );
+     });
+     
 });

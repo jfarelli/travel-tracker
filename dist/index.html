@@ -13,36 +13,33 @@
           <div class="welcome">
             <h2 class="welcome-message"></h2>
             <p class="traveler-type"></p>
-            <p class="total-trip-cost">Total Spent on Travel:<p>
+            <p class="total-trip-cost"><p>
           </div>
-          <aside class="calendar">
-            <label for="select">Book A Trip!</label><br>
-            <input type="date" id="select" name="select-date" required>
-            <!-- <label for="How many people are traveling?"></label>
-            <input type ="number" placeholder="How Many Going?" class="input-text" id="waterOunces" required> -->
-            <button class="submit-button">Show Me!</button>
-          </aside>
+          <form class="calendar">
+            <label for="select">Book Your Next Trip!</label>
+            <input type="date" id="select" class="calendar-entry" name="select-date" required>
+            <label for="How long would you like to stay?"></label>
+            <input type ="number" name="duration" placeholder="Duration (days)" class="input-text" required>
+            <label for="How many people are traveling?"></label>
+            <input type ="number" name="travelers" placeholder="How Many Going?" class="input-text" required>
+            <label for="Where would you like to go?"></label>
+            <select id="destinationDropDown" name="destination" required></select>
+            <input type="submit" value="Show Me!" class="submit-button" id="postTripSubmit"></input>
+          </form>
     </div>  
 
     <div class="center">
-      <button>Past Trips</button>
-      <button>Present Trips</button>
-      <button>Future Trips</button>
-      <button>Pending Trips</button>
+      <button id="pastTripsButton">Past Trips</button>
+      <button id="presentTripsButton">Present Trips</button>
+      <button id="futureTripsButton">Future Trips</button>
+      <button id="pendingTripsButton">Pending Trips</button>
     </div>
-
-    <div class="bottom-grid">
-      <section class="grid-item grid-item-1">
-        <img src="./images/turing-logo.png" class="turing" alt="turing">
-        <h3 class="destination">Destination</h3>
-        <p class="duration">Duration</p>
-        <p class="total-cost">Total Cost</p>
-      </section>
-    </div>
+    <div class="bottom-grid" id="pastTripsWindow"></div>
+    <div class="bottom-grid hidden" id="presentTripsWindow"></div>
+    <div class="bottom-grid hidden" id="futureTripsWindow"></div>
+    <div class="bottom-grid hidden" id="pendingTripsWindow"></div>
   </div>
-  <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
   <script src="bundle.js"></script>
-
 </body>
 </html>
 
