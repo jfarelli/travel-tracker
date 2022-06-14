@@ -1,5 +1,3 @@
-import destinationsData from '../dist/sampleData/sampleData-Destinations';
-
 import dayjs from 'dayjs';
 dayjs().format();
 

@@ -4,10 +4,6 @@ class Travelers {
         this.name = travelersData.name;
         this.travelerType = travelersData.travelerType
     }
-
-    // returnFirstName( ) {
-    //     return this.name.split(' ')[ 0 ];
-    // }
 }
 
 

@@ -4,10 +4,19 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <script defer src="login-page.js"></script> -->
   <title>Travel Tracker</title>
 </head>
 <body>
-  <div class="grid-container">
+  <div id="main-holder" >
+    <h1 class="login-text">Login to your profile</h1>
+    <form id="login-form">
+      <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username" required>
+      <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password" required>
+      <input type="submit" value="Let's Trip!" id="login-form-submit">
+    </form>
+  </div>
+  <div class="grid-container hidden">
     <div class="top-bar">
         <h1>Travel Tracker</h1>
           <div class="welcome">
@@ -34,7 +43,7 @@
       <button id="futureTripsButton">Future Trips</button>
       <button id="pendingTripsButton">Pending Trips</button>
     </div>
-    <div class="bottom-grid" id="pastTripsWindow"></div>
+    <div class="bottom-grid hidden" id="pastTripsWindow"></div>
     <div class="bottom-grid hidden" id="presentTripsWindow"></div>
     <div class="bottom-grid hidden" id="futureTripsWindow"></div>
     <div class="bottom-grid hidden" id="pendingTripsWindow"></div>
