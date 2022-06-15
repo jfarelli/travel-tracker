@@ -94,7 +94,7 @@ function getNewTripDataFromPost( event ) {
     Promise.all( [ promiseMeYouWillPost, fetchMeThatPromise ] ).then( response => {
         tripsRepository = new TripsRepository( response[ 1 ].trips );
         showMeThePostedTrip( response[ 0 ].newTrip );
-    })
+    } )
         .catch( error => console.log( error ) )
 };
 
@@ -118,7 +118,7 @@ function loadData( ) {
         showPresentTripsOnDashboard( );
         showFutureTripsOnDashboard( );
         showPendingTripsOnDashboard( );
-    });
+    } );
 }
 
 function checkUserIsValidOnLogin( event ) {
@@ -131,19 +131,19 @@ function checkUserIsValidOnLogin( event ) {
             whosTheUser( response ) 
             loadData( response ) 
             currentUser = new Travelers( response );
-        })
+        } )
         .catch( error => console.log( error ) )
-    } 
+    }
 }
 
 function checkUserIsValid( userName ) {
     let traveler = userName.substring( 0, 8 );
     let travelerID = userName.substring( 8 );
-        if( traveler === 'traveler' && parseInt( travelerID ) < 51 ) {
+        if ( traveler === 'traveler' && parseInt( travelerID ) < 51 ) {
             return travelerID
         } else {
             return false
-        }
+        };
 }
 
 function whosTheUser( travelersData ) {
@@ -152,9 +152,9 @@ function whosTheUser( travelersData ) {
   
 function displayTravelerInfoOnNav(  ) {
     let newTrip = new TripsRepository( tripsData );
-        welcomeMessageDisplay.innerText = `Welcome, ${ currentUser.name }!`
-        travelerTypeDisplay.innerText = `"${ currentUser.travelerType.toUpperCase( ) }"`
-        totalTripCostDisplay.innerText += `Total Spent on Travel this Year  : $${ newTrip.getTripCostTotalForAllYear( currentUser.id, destinationsRepository ) }`
+        welcomeMessageDisplay.innerText = `Welcome, ${ currentUser.name }!`;
+        travelerTypeDisplay.innerText = `"${ currentUser.travelerType.toUpperCase( ) }"`;
+        totalTripCostDisplay.innerText += `Total Spent on Travel this Year  : $${ newTrip.getTripCostTotalForAllYear( currentUser.id, destinationsRepository ) }`;
 }
 
 function displayPastTrips( ) {
@@ -168,7 +168,7 @@ function displayPastTrips( ) {
                         <h3 class="destination-text">${ destination.destination }</h3>
                         <p class="duration">Stayed ${ trip.duration } days</p>
                 </section>`;
-      });
+      } );
       return formatTrips;
 }
 
@@ -179,8 +179,8 @@ function showPastTripsOnDashboard( ) {
     } else {
         pastTrips.forEach( trip => {
             return pastTripsWindow.innerHTML += trip;
-        } )
-    }
+        } );
+    };
 }
 
 function displayFutureTrips( ) {
@@ -194,19 +194,19 @@ function displayFutureTrips( ) {
                     <h3 class="destination-text">${ destination.destination }</h3>
                     <p class="duration">Stayed ${ trip.duration } days</p>
                 </section>`;
-        });
+        } );
         return formatTrips;
 }
 
 function showFutureTripsOnDashboard( ) {
-    let futureTrips = displayFutureTrips( )
+    let futureTrips = displayFutureTrips( );
     if ( futureTrips.length === 0 ) {
         futureTripsWindow.innerHTML = '<p class="no-trip">NO FUTURE TRIPS!!!</p>'
     } else {
         futureTrips.forEach( trip => {
             return futureTripsWindow.innerHTML += trip;
-        } )
-    }
+        } );
+    };
 }
 
 function showPresentTripsOnDashboard( ) {
@@ -227,12 +227,12 @@ function displayPendingTrips( ) {
                         <p class="trip-status">Status: ${ trip.status }</p>
                         <p class="trip-total">Total Cost: $${destinationsRepository.getTripCostTotal( trip.destinationID, trip.travelers, trip.duration )}</p>
                 </section>`;
-        });
+        } );
         return formatTrips;
 }
 
 function showPendingTripsOnDashboard( ) {
-    let pendingTrips = displayPendingTrips( )
+    let pendingTrips = displayPendingTrips( );
     if ( pendingTrips.length === 0 ) {
         pendingTripsWindow.innerHTML = '<p class="no-trip">NO PENDING TRIPS!!!</p>'
     } 
@@ -240,32 +240,32 @@ function showPendingTripsOnDashboard( ) {
         pendingTrips.forEach( trip => {
             return pendingTripsWindow.innerHTML += trip;
         } )
-    }
+    };
 }
 
 function showPastTripsWindow( ) {
-    pastTripsWindow.classList.remove( 'hidden' )
+    pastTripsWindow.classList.remove( 'hidden' );
     presentTripsWindow.classList.add( 'hidden' );
     futureTripsWindow.classList.add( 'hidden' );
     pendingTripsWindow.classList.add( 'hidden' );
 }
 
 function showPresentTripsWindow( ) {
-    pastTripsWindow.classList.add( 'hidden' )
+    pastTripsWindow.classList.add( 'hidden' );
     presentTripsWindow.classList.remove( 'hidden' );
     futureTripsWindow.classList.add( 'hidden' );
     pendingTripsWindow.classList.add( 'hidden' );
 }
 
 function showFutureTripsWindow( ) {
-    pastTripsWindow.classList.add( 'hidden' )
+    pastTripsWindow.classList.add( 'hidden' );
     presentTripsWindow.classList.add( 'hidden' );
     futureTripsWindow.classList.remove( 'hidden' );
     pendingTripsWindow.classList.add( 'hidden' );
 }
 
 function showPendingTripsWindow( ) {
-    pastTripsWindow.classList.add( 'hidden' )
+    pastTripsWindow.classList.add( 'hidden' );
     presentTripsWindow.classList.add( 'hidden' );
     futureTripsWindow.classList.add( 'hidden' );
     pendingTripsWindow.classList.remove( 'hidden' );
@@ -274,5 +274,5 @@ function showPendingTripsWindow( ) {
 function displayDestinationsInDropDown( ) {
     destinationsRepository.destinations.forEach( destination => {
         destinationDropDown.innerHTML += `<option name='destination' value="${ destination.id }">${ destination.destination }</option>`
-    })
+    } );
 }

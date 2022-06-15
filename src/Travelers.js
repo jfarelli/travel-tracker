@@ -6,6 +6,4 @@ class Travelers {
     }
 }
 
-
-
 export default Travelers;

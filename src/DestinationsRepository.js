@@ -1,5 +1,3 @@
-import tripsData from "../dist/sampleData/sampleData-Trips";
-import TripsRepository from "./TripsRepository";
 import dayjs from 'dayjs';
 dayjs().format();
 
@@ -20,14 +18,5 @@ class DestinationsRepository {
         return parseFloat( totalWithAgentFees.toLocaleString( 'en-US' ) );
     }
 }
-
-    
-
-
-
-   
-
-
-
 
 export default DestinationsRepository;

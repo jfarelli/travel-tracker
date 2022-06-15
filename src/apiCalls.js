@@ -4,7 +4,6 @@ export let getData = ( dataType ) => {
         .catch( error => console.log( error ) );
 }
 
-
 export let postData = ( data ) => {
     return fetch( 'http://localhost:3001/api/v1/trips', {
         method: 'POST',

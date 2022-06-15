@@ -9,5 +9,4 @@ class TravelersRepository {
     }
 }
 
-
 export default TravelersRepository;

@@ -9,16 +9,6 @@ const travelersData = [
     "name": "Rachael Vaughten",
     "travelerType": "thrill-seeker"
     }
-    // {
-    // "id": 3,
-    // "name": "Sibby Dawidowitsch",
-    // "travelerType": "shopper"
-    // },
-    // {
-    // "id": 4,
-    // "name": "Leila Thebeaud",
-    // "travelerType": "photographer"
-    // }
 ]
 
 
