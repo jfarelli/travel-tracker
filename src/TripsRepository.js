@@ -18,13 +18,13 @@ class TripsRepository {
 
     getPastTripsByUserID( userID ) {
         let travelerTripsTaken = this.getTripsByUserId( userID );
-        let pastTrips = travelerTripsTaken.filter( trip => dayjs( trip.date ).isBefore( Date.now() ) )
+        let pastTrips = travelerTripsTaken.filter( trip => dayjs( trip.date ).isBefore( Date.now( ) ) )
         return pastTrips
     }
 
     getFutureTripsByUserID( userID ) {
         let travelerTripsTaken = this.getTripsByUserId( userID );
-        let futureTrips = travelerTripsTaken.filter( trip => dayjs( trip.date ).isAfter( Date.now() ) )
+        let futureTrips = travelerTripsTaken.filter( trip => dayjs( trip.date ).isAfter( Date.now( ) ) )
         return futureTrips
     }
 
@@ -35,9 +35,6 @@ class TripsRepository {
         }) 
         return pendingTrips
     }
-
-    // present trips => 
-
    
     getTripCostTotalForAllYear( userID, destinationsRepository ) {
         const trips = this.getTripsByUserId( userID )
@@ -46,12 +43,9 @@ class TripsRepository {
             let destination = destinationsRepository.getDestinationsbyId( trip.destinationID )
             acc += ( destination.estimatedFlightCostPerPerson * trip.travelers ) + ( destination.estimatedLodgingCostPerDay * trip.duration * trip.travelers )
             return acc
-        }, 0)
+        }, 0 );
         return parseFloat( ( tripCostThisYear  * 1.1 ).toFixed( 2 ) ).toLocaleString( 'en-US' ) ;
-        };
-
-    
+    };
 }
-
 
 export default TripsRepository;
