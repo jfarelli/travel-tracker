@@ -21,11 +21,13 @@
 * For **password**, type in `travel`
 * Then, hit the "Let's Trip!" button to view the users trip page
 <br> 
+https://user-images.githubusercontent.com/97558758/173713818-f699d91f-8d7f-4f0e-a4e1-cc3cef8f5850.mov
 
 **View Trips!**<br>
 * You'll start on the user's **Past Trips**
 * Click the blue buttons to move between **Past**, **Present**, **Future**, and **Pending** Trips.
 <br>
+https://user-images.githubusercontent.com/97558758/173713848-acbbdd5c-252d-4a89-bd6f-3e4b25cfb8e8.mov
 
 **Book A Trip!**<br>
 * On the top right of the page you can book a trip for the user.
@@ -35,6 +37,9 @@
 * Select a destination from the dropdown.
 * After everything is filled out, hit that **"Let's Go!"** button!
 * The trip selected will now be located in the **Pending** trips with the info you entered, plus the total cost of the trip! Nice!
+<br>
+https://user-images.githubusercontent.com/97558758/173713882-1e9ac305-625e-4978-a0a0-0061fb9f1d51.mov
+
 
 ### Challenges and Reflections:
 * This project was a pretty difficult challenge. I dealt with fetching API data from the server and also enabling the ability to POST a new trip and then be able to fetch that data. Above that was creating a login page (which I have never done before), linking that login to the user, and then displaying that user's trips.
